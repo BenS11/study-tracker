@@ -35,9 +35,6 @@ study-tracker help
 
 ## Roadmap
 
-Features you haven't built yet but plan to (pull these from your
-"Schedule" quadrant in the Eisenhower Matrix).
-
 - [ ] CLI Interface
 - [ ] Data Storage
 - [ ] Study Analysis
