@@ -1,5 +1,5 @@
 # Study Tracker
-
+### Overview
 A tool for tracking study time, with analysis of the time spent on different subjects.
 
 ## The Problem
@@ -10,7 +10,7 @@ I have a difficult time keeping track of my study habits. I would like to know m
 
 This is a command line tool (with plans to expand to a GUI). The user will input commands, entering study data, or querying about past study sessions. They will be able to record the start and end of sessions, categorize by subject, and see trends. 
 
-![System diagram](HomeworkTrackerSequenceDiagram.pdf)
+![System diagram](docs/StudyTrackerSequenceDiagram.png)
 
 ## Tech Stack
 
@@ -40,8 +40,12 @@ Features you haven't built yet but plan to (pull these from your
 
 - [ ] CLI Interface
 - [ ] Data Storage
-- [ ] 
-
+- [ ] Study Analysis
+- [ ] Testing
+- [ ] Study Subject Tracking
+- [ ] GUI Interface
+- [ ] Homework Tracking
+- [ ] Misc. fun features
 ## Author
 
-Benjamin Simpson [link text](https://github.com/BenS11)
+Benjamin Simpson - [Github](https://github.com/BenS11)
