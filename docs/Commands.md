@@ -6,9 +6,12 @@ Displays usage instructions
 
 ### Arguments
 - Command Name
-
 ## record* 
 
 ### Arguments
 
 ## config
+
+### Arguments
+
+## 

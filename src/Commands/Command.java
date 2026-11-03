@@ -1,7 +1,10 @@
 package Commands;
 
-public abstract class Command {
+public interface Command {
 
-    public Command()
+    public void initialize(String command, String subcommand, String... arguments);
+
+    public String execute();
+
 
 }

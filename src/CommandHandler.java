@@ -1,4 +1,4 @@
-package Commands;
+import Commands.Command;
 
 public class CommandHandler {
 
