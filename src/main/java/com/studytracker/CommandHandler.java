@@ -1,4 +1,6 @@
-import Commands.Command;
+package com.studytracker;
+
+
 
 public class CommandHandler {
 
@@ -8,13 +10,11 @@ public class CommandHandler {
 
         int idx = str.indexOf(" ");
 
-        if (idx == -1) {
-            return
+        switch (str) {
+
         }
 
-        switch (str) {
-            case "help" -> return new HelpCommand()
-        }
+        return new NullCommand();
     }
 
 }

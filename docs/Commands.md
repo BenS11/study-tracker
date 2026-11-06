@@ -1,4 +1,4 @@
-# Commands
+# com.studytracker.Commandscker.Commands
 <small>(* denotes unimplimented commands) </small>
 
 ## help*

@@ -28,7 +28,7 @@ As of now the project is still in development
 ## Usage
 
 
-### Commands
+### com.studytracker.Commandscker.Commands
 ```bash
 study-tracker help
 ```

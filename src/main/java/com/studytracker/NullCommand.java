@@ -1,4 +1,4 @@
-package Commands;
+package com.studytracker;
 
 public class NullCommand implements Command {
 
@@ -7,8 +7,7 @@ public class NullCommand implements Command {
         return "Command not recognized: " + arguments;
     }
 
-    @Override
-    public String getManualStatement() {
+    public static String getManualStatement() {
         return "Null Command - returned when a command is unrecognized";
     }
 }
