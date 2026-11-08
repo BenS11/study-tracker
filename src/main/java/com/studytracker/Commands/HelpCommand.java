@@ -1,4 +1,4 @@
-package com.studytracker;
+package com.studytracker.Commands;
 
 public class HelpCommand implements Command {
     @Override
