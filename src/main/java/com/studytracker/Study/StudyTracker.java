@@ -1,4 +1,4 @@
-package com.studytracker;
+package com.studytracker.Study;
 
 public class StudyTracker {
 

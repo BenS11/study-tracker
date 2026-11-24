@@ -1,13 +1,28 @@
 package com.studytracker.Commands;
 
-public class NullCommand implements Command {
+import java.util.Arrays;
 
-    @Override
-    public String execute(String arguments) {
-        return "Command not recognized: " + arguments;
+public class NullCommand implements Command {
+    String message;
+    
+    public NullCommand() {}
+    
+    public NullCommand(String message) {
+        this.message = message;
     }
 
-    public static String getManualStatement() {
+
+    @Override
+    public String execute(String[] arguments) {
+
+        if (message == null) {
+            return "Command not recognized, Args:" + Arrays.toString(arguments) + "\n" + "(use help for help)";
+        }
+
+        return message;
+    }
+
+    public String getManualPage() {
         return "Null Command - returned when a command is unrecognized";
     }
 }
