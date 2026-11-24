@@ -20,6 +20,13 @@ public class StudySession implements CSVable {
         this.subject = subject;
     }
 
+    public StudySession(long id, LocalDateTime startTime, LocalDateTime endTime, String subject) {
+        this.id = id;
+        this.date = startTime;
+        this.duration = Duration.between(startTime, endTime);
+        this.subject = subject;
+    }
+
     @Override
     public String toString() {
         long hours = duration.toHours();

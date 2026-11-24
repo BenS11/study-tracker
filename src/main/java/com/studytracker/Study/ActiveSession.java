@@ -12,10 +12,6 @@ public class ActiveSession implements CSVable {
     public final String subject;
     private boolean completed = false;
 
-    public ActiveSession(String subject) {
-        this(LocalDateTime.now(), subject);
-    }
-
     public ActiveSession(LocalDateTime startTime,String subject) {
         this.startTime = startTime;
         this.subject = subject;
@@ -33,6 +29,19 @@ public class ActiveSession implements CSVable {
 
     public String toCSV() {
         return ACTIVE_SESSION_TOKEN + "," + startTime + "," + subject;
+    }
+
+    @Override
+    public String toString() {
+
+        Duration duration = Duration.between(startTime, LocalDateTime.now());
+
+        long hours = duration.toHours();
+        int minutes = duration.toMinutesPart();
+        int seconds = duration.toSecondsPart();
+
+        return String.format("Date: %s - Duration: %02d:%02d:%02d - Subject: %s",
+                startTime.toLocalDate().toString(), hours, minutes, seconds, subject);
     }
 
     public static ActiveSession fromCSV(String csv) {

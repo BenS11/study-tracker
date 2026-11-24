@@ -4,6 +4,9 @@ import com.studytracker.Interfaces.CSVable;
 import com.studytracker.Utility.StudyLogger;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,5 +68,10 @@ public class StudyIO {
 
 
         return arr;
+    }
+
+    public static void wipeFile(Path path) throws IOException{
+        Files.newBufferedWriter(
+            path, StandardOpenOption.TRUNCATE_EXISTING).close();
     }
 }

@@ -1,56 +1,46 @@
 package com.studytracker.Commands;
 
-import com.studytracker.Study.StudyConfig;
+import com.studytracker.Display.StudyUserIO;
 import com.studytracker.Study.StudyRepository;
+import picocli.CommandLine;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 
-public class ResetCommand implements Command {
+public class ResetCommand implements Runnable {
 
 
     private final StudyRepository repo;
+    private final StudyUserIO disp;
 
-    public ResetCommand(StudyRepository repo) {
+    @CommandLine.Option(
+            names = {"-f", "--force"},
+            description = "force reset"
+    )
+    private boolean force;
+
+    public ResetCommand(StudyRepository repo, StudyUserIO disp)
+    {
         this.repo = repo;
+        this.disp = disp;
     }
+
     /**
-     * Executes a task, and returns a String representing
-     *
-     * @return A message for the user
+     * Executes a task
      */
     @Override
-    public String execute(String[] arguments) {
-        String checkOne = IO.readln("Are you sure you want to wipe all data? (y/n):\n").toLowerCase();
-        if (!checkOne.equals("y")) {
-            return "Aborted wipe";
+    public void run() {
+
+        if (!force) {
+            disp.println("Are you sure you want to wipe all data?");
+            disp.println("Run reset -f if you are sure");
+            return;
         }
-
-        String checkTwo = IO.readln("Are you really sure you want to wipe all data? (y/n):\n").toLowerCase();
-
-        if (!checkTwo.equals("y")) {
-            return "Aborted wipe";
-        }
-
-        repo.wipe();
         try {
-            Files.newBufferedWriter(
-                    StudyConfig.getGlobalConfig().getDataPath(),
-                    StandardOpenOption.TRUNCATE_EXISTING).close();
-
-            Files.newBufferedWriter(
-                    StudyConfig.getGlobalConfig().getActiveSessionsDataPath(),
-                    StandardOpenOption.TRUNCATE_EXISTING).close();
+            repo.wipe();
+            disp.println("Wiped data.csv and active.csv");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            disp.println("Could not wipe data -IOException");
         }
-
-        return "Wiped data.csv";
     }
 
-    @Override
-    public String getManualPage() {
-        return "";
-    }
 }

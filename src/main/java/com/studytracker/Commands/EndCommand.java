@@ -1,29 +1,37 @@
 package com.studytracker.Commands;
 
+import com.studytracker.Display.StudyUserIO;
 import com.studytracker.Study.StudyRepository;
+import picocli.CommandLine;
 
-import java.util.Arrays;
-
-public class EndCommand implements Command {
+@CommandLine.Command(
+        name = "end",
+        description = "Ends an active study session."
+)
+public class EndCommand implements Runnable {
 
     private final StudyRepository repo;
+    private final StudyUserIO display;
 
-    public EndCommand(StudyRepository repo) {
+
+    @CommandLine.Option(
+            names = {"-s", "--subject"},
+            description = "Subject name"
+    )
+    private String subject;
+
+    public EndCommand(StudyRepository repo, StudyUserIO display) {
         this.repo = repo;
-    }
-
-    /**
-     * Executes a task, and returns a String representing
-     *
-     * @return A message for the user
-     */
-    @Override
-    public String execute(String[] arguments) {
-        return repo.endOldestSession();
+        this.display = display;
     }
 
     @Override
-    public String getManualPage() {
-        return "";
+    public void run() {
+        if (subject != null) {
+            display.println(repo.endSessionBySubject(subject));
+        } else {
+            display.println(repo.endOldestSession());
+        }
+
     }
 }

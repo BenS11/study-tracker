@@ -1,5 +1,6 @@
 package com.studytracker.Commands;
 
+import com.studytracker.Display.StudyUserIO;
 import com.studytracker.Study.StudyRepository;
 import picocli.CommandLine;
 
@@ -13,6 +14,7 @@ import java.time.LocalTime;
 public class BeginCommand implements Runnable {
 
     private final StudyRepository repo;
+    private final StudyUserIO display;
 
     @CommandLine.Parameters(
             index = "0..*",
@@ -38,8 +40,9 @@ public class BeginCommand implements Runnable {
     )
     private String notes;
 
-    public BeginCommand(StudyRepository repo) {
+    public BeginCommand(StudyRepository repo, StudyUserIO display) {
         this.repo = repo;
+        this.display = display;
     }
 
     @Override
@@ -48,16 +51,13 @@ public class BeginCommand implements Runnable {
                 ? "Unspecified"
                 : String.join(" ", subjectArgs);
 
-        // Default to the current date and time.
-        LocalDate startDate = date != null
-                ? date
-                : LocalDate.now();
+        LocalDate startDate = date != null ? date : LocalDate.now();
 
         LocalTime startTime = time != null
                 ? time
                 : LocalTime.now();
 
-        System.out.println(
+        display.println(
                 repo.startSession(subject)
         );
     }
