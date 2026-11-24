@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 @CommandLine.Command(
         name = "display",
+        aliases = {"disp", "show"},
         description = "Displays study sessions"
 )
 public class DisplayCommand implements Runnable {
