@@ -15,15 +15,17 @@ public class StudyRepository {
     private final ArrayList<StudySession> completeSessions;
     private final ArrayList<ActiveSession> activeSessions;
 
-    private final Path finishedPath;
+    private final Path completePath;
     private final Path activePath;
 
     public StudyRepository(Path finishedPath, Path activePath) {
-        this.finishedPath = finishedPath;
+        this.completePath = finishedPath;
         this.activePath = activePath;
 
-        completeSessions = StudyIO.readAllCompleteSessions();
-        activeSessions = StudyIO.readAllActiveSessions();
+        completeSessions = new ArrayList<>();
+        activeSessions = new ArrayList<>();
+
+        refreshFromFiles();
         sortSessions();
         Runtime.getRuntime().addShutdownHook(new Thread(this::flush));
     }
@@ -53,7 +55,11 @@ public class StudyRepository {
     }
 
     public String startSession(String subject, LocalDateTime startTime) {
-        activeSessions.add(new ActiveSession(startTime, subject));
+        return startSession(new ActiveSession(startTime, subject));
+    }
+
+    public String startSession(ActiveSession session) {
+        activeSessions.add(session);
         sortSessions();
         return "Wrote start of session";
     }
@@ -253,12 +259,20 @@ public class StudyRepository {
         return true;
     }
 
+    public boolean isEmpty() {
+        return completeSessions.isEmpty() && activeSessions.isEmpty();
+    }
+
+    public int size() {
+        return completeSessions.size() + activeSessions.size();
+    }
+
     /**
      * Writes all data on shutdown
      */
     public void flush() {
         try {
-            StudyIO.writeCSVs(finishedPath.toFile(), completeSessions, false);
+            StudyIO.writeCSVs(completePath.toFile(), completeSessions, false);
             StudyIO.writeCSVs(activePath.toFile(), activeSessions, false);
         } catch (IOException e) {
             StudyLogger.logException(e);
@@ -272,7 +286,7 @@ public class StudyRepository {
         activeSessions.clear();
         completeSessions.clear();
         StudyIO.wipeFile(activePath);
-        StudyIO.wipeFile(finishedPath);
+        StudyIO.wipeFile(completePath);
     }
 
     /**
@@ -292,5 +306,24 @@ public class StudyRepository {
         }
 
         return "Could not find session with id: " + id;
+    }
+
+    public Path getCompletePath() {
+        return completePath;
+    }
+
+    public Path getActivePath() {
+        return activePath;
+    }
+
+    /**
+     * Refreshes data from files - wipes all active data, use flush to put all active data in the files
+     */
+    public void refreshFromFiles() {
+        completeSessions.clear();
+        activeSessions.clear();
+        completeSessions.addAll(StudyIO.readAllCompleteSessions(completePath));
+        activeSessions.addAll(StudyIO.readAllActiveSessions(activePath));
+        sortSessions();
     }
 }

@@ -24,9 +24,9 @@ public class StudyIO {
         }
     }
 
-    public static ArrayList<StudySession> readAllCompleteSessions() {
+    public static ArrayList<StudySession> readAllCompleteSessions(Path completePath) {
         ArrayList<StudySession> arr = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(StudyConfig.getGlobalConfig().getDataPath().toFile()))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(completePath.toFile()))) {
             String csv;
             while ((csv = br.readLine()) != null) {
                 if (csv.startsWith(START_SESSION_TOKEN)) {
@@ -47,9 +47,14 @@ public class StudyIO {
         return arr;
     }
 
-    public static ArrayList<ActiveSession> readAllActiveSessions() {
+    public static ArrayList<StudySession> readAllCompleteSessions() {
+        return readAllCompleteSessions(StudyConfig.getGlobalConfig().getDataPath());
+    }
+
+
+    public static ArrayList<ActiveSession> readAllActiveSessions(Path activePath) {
         ArrayList<ActiveSession> arr = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(StudyConfig.getGlobalConfig().getActiveSessionsDataPath().toFile()))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(activePath.toFile()))) {
             String csv;
             while ((csv = br.readLine()) != null) {
                 if (csv.startsWith(START_SESSION_TOKEN)) {
@@ -68,6 +73,10 @@ public class StudyIO {
 
 
         return arr;
+    }
+
+    public static ArrayList<ActiveSession> readAllActiveSessions() {
+        return readAllActiveSessions(StudyConfig.getGlobalConfig().getActiveSessionsDataPath());
     }
 
     public static void wipeFile(Path path) throws IOException{
