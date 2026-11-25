@@ -13,6 +13,7 @@ public class CommandHandler {
 
     private final CommandLine cli;
     private final StudyUserIO display;
+    private boolean firstTime;
 
     public CommandHandler(StudyRepository repo, StudyUserIO display, Statistics stats) {
         this.display = display;
@@ -27,6 +28,8 @@ public class CommandHandler {
                 )
         );
 
+        firstTime = repo.isEmpty();
+
         cli.addSubcommand("begin", new BeginCommand(repo, display));
         cli.addSubcommand("end", new EndCommand(repo, display));
         cli.addSubcommand("record", new RecordCommand(repo, display));
@@ -40,6 +43,8 @@ public class CommandHandler {
     }
 
     public void run() {
+        display.println(getWelcomeMessage());
+
         while (true) {
             String input = display.read();
 
@@ -55,6 +60,15 @@ public class CommandHandler {
             String[] args = input.split("\\s+");
             cli.execute(args);
         }
+    }
+
+    public String getWelcomeMessage() {
+        String message = "Welcome to Study Tracker!";
+        if (firstTime) {
+            message += "\n Type help to get started";
+        }
+
+        return message;
     }
 
     public void executeSingle(String[] args) {

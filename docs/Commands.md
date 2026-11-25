@@ -62,7 +62,7 @@ Displays general study statistics.
 - Most-studied subject.
 - Time spent on most studied subject.
 - more to be added
-## streak*
+## streak
 
 Displays study consistency statistics.
 
