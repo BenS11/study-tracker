@@ -25,4 +25,4 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
 
       - name: Run tests
-        run: ./gradlew test --refresh-dependencies
+        run: ./gradlew test
