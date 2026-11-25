@@ -1,6 +1,7 @@
 package com.studytracker.Study;
 
 import com.studytracker.Interfaces.CSVable;
+import com.studytracker.Utility.DurationFormatter;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -27,14 +28,27 @@ public class StudySession implements CSVable {
         this.subject = subject;
     }
 
+    public StudySession edit(LocalDateTime date, Duration duration, String subject) {
+        if (date == null) {
+            date = this.date;
+        }
+
+        if (duration == null) {
+            duration = this.duration;
+        }
+
+        if (subject == null) {
+            subject = this.subject;
+        }
+
+        return new StudySession(id, date, duration, subject);
+    }
+
     @Override
     public String toString() {
-        long hours = duration.toHours();
-        int minutes = duration.toMinutesPart();
-        int seconds = duration.toSecondsPart();
 
-        return String.format("ID: %d - Date: %s - Duration: %02d:%02d:%02d - Subject: %s",
-                id, date.toLocalDate().toString(), hours, minutes, seconds, subject);
+        return String.format("ID: %d - Date: %s - Duration: %s - Subject: %s",
+                id, date.toLocalDate().toString(), DurationFormatter.formatDuration(duration), subject);
     }
 
     public String toCSV() {

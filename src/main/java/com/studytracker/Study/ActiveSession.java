@@ -1,6 +1,7 @@
 package com.studytracker.Study;
 
 import com.studytracker.Interfaces.CSVable;
+import com.studytracker.Utility.DurationFormatter;
 import com.studytracker.Utility.StudyLogger;
 
 import java.time.Duration;
@@ -36,12 +37,8 @@ public class ActiveSession implements CSVable {
 
         Duration duration = Duration.between(startTime, LocalDateTime.now());
 
-        long hours = duration.toHours();
-        int minutes = duration.toMinutesPart();
-        int seconds = duration.toSecondsPart();
-
-        return String.format("Date: %s - Duration: %02d:%02d:%02d - Subject: %s",
-                startTime.toLocalDate().toString(), hours, minutes, seconds, subject);
+        return String.format("Date: %s - Duration: %s - Subject: %s",
+                startTime.toLocalDate().toString(), DurationFormatter.formatDuration(duration), subject);
     }
 
     public static ActiveSession fromCSV(String csv) {

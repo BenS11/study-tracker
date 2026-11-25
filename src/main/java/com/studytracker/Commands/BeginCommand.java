@@ -34,11 +34,11 @@ public class BeginCommand implements Runnable {
     )
     private LocalTime time;
 
-    @CommandLine.Option(
-            names = {"-n", "--notes"},
-            description = "Notes about the session"
-    )
-    private String notes;
+//    @CommandLine.Option(
+//            names = {"-n", "--notes"},
+//            description = "Notes about the session"
+//    )
+//    private String notes;
 
     public BeginCommand(StudyRepository repo, StudyUserIO display) {
         this.repo = repo;

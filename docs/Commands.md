@@ -8,38 +8,36 @@ Starts a new active study session.
 
 ### Arguments
 - `subject` (optional): Subject being studied.
-- `--date` (optional): Session start date.
-- `--time` (optional): Session start time.
+- `-d, --date` (optional): Session start date.
+- `-t, --time` (optional): Session start time.
 
 ## end
 
 Ends an active study session.
 
 ### Arguments
-- `--subject` (optional): Subject of the session to end.
+- `-s, --subject` (optional): Subject of the session to end.
 
 ## record
 
 Manually records a completed study session.
 
 ### Arguments
-- `subject`: Subject studied.
-- `--date`: Session date.
-- `--start`: Session start time.
-- `--end`: Session end time.
-- `--duration`: Session duration.
+- `-d, --date-time`: Session date.
+- `-s, --subject`: Subject studied.
+- `-t, --time`: Session start time.
+- `-e, --end-time`: Session end time.
+- `-s, --subject`: Subject studied.
 
 ## display
 
 Displays active or completed study sessions.
 
 ### Arguments
-- `--active`: Display active sessions.
-- `--complete`: Display completed sessions.
-- `--from`: Filter sessions starting on or after this date.
-- `--to`: Filter sessions starting on or before this date.
-- `--id`: Display a specific session by ID.
-- `--subject`: Filter by subject.
+- `-a, --active`: Display active sessions.
+- `-c, --complete`: Display completed sessions.
+- `-s, --start-range`: start of range to display
+- `-e, --end-range`: end of range to display
 
 ## delete
 
@@ -48,23 +46,22 @@ Deletes a completed study session.
 ### Arguments
 - `id`: ID of the session to delete.
 
-## stats*
+## summary
 
 Displays general study statistics.
 
 ### Arguments
-- `--subject`: Filter statistics by subject.
-- `--from`: Beginning of the date range.
-- `--to`: End of the date range.
+- `-s, --start-date`: Start of range to summarize
+- `-e, --end-date`: Start of range to summarize
+- `-a, --all`: Summarize all sessions 
 
 ### Statistics
 - Total study time.
-- Number of completed sessions.
 - Average session duration.
-- Longest session.
+- Average time spent per day.
 - Most-studied subject.
-- Study time by subject.
-
+- Time spent on most studied subject.
+- more to be added
 ## streak*
 
 Displays study consistency statistics.
@@ -91,7 +88,7 @@ Lists subjects that have been studied.
 Deletes all stored study session data.
 
 ### Arguments
-- `-f`, `--force`: Skip confirmation.
+- `-f`, `--force`: Skip confirmation (required to reset).
 
 ## help
 
