@@ -8,38 +8,37 @@ I have a difficult time keeping track of my study habits. I would like to know m
 
 ## How It Works
 
-This is a command line tool (with plans to expand to a GUI). The user will input commands, entering study data, or querying about past study sessions. They will be able to record the start and end of sessions, categorize by subject, and see trends. 
+Study Tracker is a command-line application that allows users to record and manage study sessions. Users interact with the program through commands to track time spent studying, organize sessions by subject, and review historical data.
 
 ![System diagram](docs/StudyTrackerSequenceDiagram.png)
 
 ## Tech Stack
 
 - **Language:** Java 
-- **Libraries:** Gradle, JUnit, JavaFX
-- **External tools:** None, as of now.
+- **Libraries:** Gradle, JUnit, picocli
+- **External tools:** GraalVM
 
 ## Setup
 
-As of now the project is still in development
+Precompiled releases are available on the
+[GitHub Releases page](https://github.com/BenS11/study-tracker/releases).
+
+Download the appropriate executable for your operating system.
 
 ### Prerequisites
-- Java 21
+- Supported OS
 
 ## Usage
 
-
-### com.studytracker.Commandscker.Commands
-```bash
-study-tracker help
-```
+All availible commands are documented in Commands.md, or type help in the cli to get started.
 
 ## Roadmap
 
-- [ ] CLI Interface
-- [ ] Data Storage
-- [ ] Study Analysis
-- [ ] Testing
-- [ ] Study Subject Tracking
+- [x] CLI Interface
+- [x] Data Storage
+- [x] Study Analysis
+- [x] Testing
+- [x] Study Subject Tracking
 - [ ] GUI Interface
 - [ ] Homework Tracking
 - [ ] Misc. fun features
