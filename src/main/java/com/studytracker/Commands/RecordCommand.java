@@ -38,7 +38,7 @@ public class RecordCommand implements Runnable {
 
     @CommandLine.Option(
             names = {"-e", "--end-time"},
-            description = "The end time of the session - to end an active session use end"
+            description = "The end time of the session (yyyy-MM-ddTHH:mm) - to end an active session use end"
     )
     LocalDateTime endTime;
 

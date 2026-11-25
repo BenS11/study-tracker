@@ -4,6 +4,7 @@ import com.studytracker.Utility.StudyLogger;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -157,16 +158,13 @@ public class StudyRepository {
     }
 
     public String displayActiveSessions(LocalDate start, LocalDate end) {
-        List<ActiveSession> filtered = activeSessions.stream()
-                .filter(s -> (start == null || !s.startTime.toLocalDate().isBefore(start))
-                        && (end == null || !s.startTime.toLocalDate().isAfter(end)))
-                .toList();
+        List<ActiveSession> sessions = getActiveInRange(start, end);
 
-        if (filtered.isEmpty()) return "No active sessions found.";
+        if (sessions.isEmpty()) return "No active sessions found.";
 
         StringBuilder sb = new StringBuilder("Active Sessions:\n");
 
-        for (ActiveSession session : filtered) {
+        for (ActiveSession session : sessions) {
             sb.append(session).append("\n");
         }
 
@@ -174,20 +172,85 @@ public class StudyRepository {
     }
 
     public String displayCompleteSessions(LocalDate start, LocalDate end) {
-        List<StudySession> filtered = completeSessions.stream()
-                .filter(s -> (start == null || !s.date.toLocalDate().isBefore(start))
-                        && (end == null || !s.date.toLocalDate().isAfter(end)))
-                .toList();
+        List<StudySession> sessions = getCompletedInRange(start, end);
 
-        if (filtered.isEmpty()) return "No completed sessions in this range.";
+        if (sessions.isEmpty()) return "No completed sessions in this range.";
 
         StringBuilder sb = new StringBuilder("Completed Sessions:\n");
 
-        for (StudySession session : filtered) {
+        for (StudySession session : sessions) {
             sb.append(session).append("\n");
         }
 
         return sb.toString();
+    }
+
+    public List<StudySession> getCompleted() {
+        return List.copyOf(completeSessions);
+    }
+
+    public List<ActiveSession> getActive() {
+        return List.copyOf(activeSessions);
+    }
+
+    public List<StudySession> getCompletedInRange(LocalDate start, LocalDate end) {
+        return completeSessions.stream()
+                .filter(s -> (start == null || !s.date.toLocalDate().isBefore(start))
+                        && (end == null || !s.date.toLocalDate().isAfter(end)))
+                .toList();
+    }
+
+    public List<ActiveSession> getActiveInRange(LocalDate start, LocalDate end) {
+        return activeSessions.stream()
+                .filter(s -> (start == null || !s.startTime.toLocalDate().isBefore(start))
+                        && (end == null || !s.startTime.toLocalDate().isAfter(end)))
+                .toList();
+    }
+
+
+    public int getStreak(String subject) {
+        if (completeSessions.isEmpty()) {
+            return 0;
+        }
+        // sorted oldest to newest, go newest to oldest for simplicity
+        List<LocalDate> dateList = completeSessions
+                .stream()
+                .filter(s -> subject == null || s.subject.equals(subject))
+                .map(s -> s.date.toLocalDate())
+                .distinct()
+                .toList()
+                .reversed();
+
+        int streak = 0;
+
+        LocalDate current = LocalDate.now();
+        for (LocalDate date : dateList) {
+            if (date.equals(current)) {
+                streak++;
+            } else {
+                break;
+            }
+
+            current = current.minusDays(1L);
+        }
+
+        return streak;
+    }
+
+    public boolean edit(long sessionId, LocalDateTime newDateTime, Duration newDuration, String newSubject) {
+        StudySession session = null;
+
+        for (StudySession s : completeSessions) {
+            if (s.id == sessionId) {
+                session = s;
+            }
+        }
+
+        if (session == null) return false;
+
+        completeSessions.remove(session);
+        addSession(session.edit(newDateTime, newDuration, newSubject));
+        return true;
     }
 
     /**

@@ -6,6 +6,10 @@ import picocli.CommandLine;
 
 import java.io.IOException;
 
+@CommandLine.Command(
+        name = "reset",
+        description = "wipes all data - DANGER"
+)
 public class ResetCommand implements Runnable {
 
 

@@ -2,20 +2,30 @@ package com.studytracker;
 
 import com.studytracker.Commands.*;
 import com.studytracker.Display.StudyUserIO;
+import com.studytracker.Statistics.Statistics;
 import com.studytracker.Study.StudyRepository;
 import picocli.CommandLine;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class CommandHandler {
 
     private final CommandLine cli;
     private final StudyUserIO display;
-    private final StudyRepository repo;
 
-    public CommandHandler(StudyRepository repo, StudyUserIO display) {
+    public CommandHandler(StudyRepository repo, StudyUserIO display, Statistics stats) {
         this.display = display;
-        this.repo = repo;
 
         cli = new CommandLine(new RootCommand(display));
+
+        cli.registerConverter(
+                LocalDateTime.class,
+                value -> LocalDateTime.parse(
+                        value,
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                )
+        );
 
         cli.addSubcommand("begin", new BeginCommand(repo, display));
         cli.addSubcommand("end", new EndCommand(repo, display));
@@ -23,6 +33,9 @@ public class CommandHandler {
         cli.addSubcommand("display", new DisplayCommand(repo, display));
         cli.addSubcommand("delete", new DeleteCommand(repo, display));
         cli.addSubcommand("help", new CommandLine.HelpCommand());
+        cli.addSubcommand("streak", new StreakCommand(display, stats));
+        cli.addSubcommand("summary", new SummaryCommand(display, stats));
+        cli.addSubcommand("edit", new EditCommand(repo, display));
         cli.addSubcommand("reset", new ResetCommand(repo, display));
     }
 
@@ -42,5 +55,9 @@ public class CommandHandler {
             String[] args = input.split("\\s+");
             cli.execute(args);
         }
+    }
+
+    public void executeSingle(String[] args) {
+        cli.execute(args);
     }
 }
