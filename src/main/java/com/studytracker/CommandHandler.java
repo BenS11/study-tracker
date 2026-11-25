@@ -13,13 +13,9 @@ public class CommandHandler {
 
     private final CommandLine cli;
     private final StudyUserIO display;
-    private final StudyRepository repo;
-    private final Statistics stats;
 
     public CommandHandler(StudyRepository repo, StudyUserIO display, Statistics stats) {
         this.display = display;
-        this.repo = repo;
-        this.stats = stats;
 
         cli = new CommandLine(new RootCommand(display));
 
@@ -59,5 +55,9 @@ public class CommandHandler {
             String[] args = input.split("\\s+");
             cli.execute(args);
         }
+    }
+
+    public void executeSingle(String[] args) {
+        cli.execute(args);
     }
 }

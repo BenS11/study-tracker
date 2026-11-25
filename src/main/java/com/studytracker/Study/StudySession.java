@@ -47,8 +47,18 @@ public class StudySession implements CSVable {
     @Override
     public String toString() {
 
+        String[] arr = date.toString().split("T");
+        String dateStr;
+        if (arr.length > 1) {
+            arr[1] = arr[1].substring(0, 5);
+            dateStr = arr[0] + " " + arr[1];
+        } else {
+            dateStr = date.toString();
+        }
+
+
         return String.format("ID: %d - Date: %s - Duration: %s - Subject: %s",
-                id, date.toLocalDate().toString(), DurationFormatter.formatDuration(duration), subject);
+                id, dateStr, DurationFormatter.formatDuration(duration), subject);
     }
 
     public String toCSV() {
