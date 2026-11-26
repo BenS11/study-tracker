@@ -1,0 +1,69 @@
+#name: Build StudyTracker Release
+#
+#on:
+#  push:
+#    tags:
+#      - 'v*'
+#
+#permissions:
+#  contents: write
+#
+#jobs:
+#  build:
+#    name: Build on ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        include:
+#          - os: windows-latest
+#            gradle-command: .\gradlew.bat
+#            executable-path: build/native/nativeCompile/*.exe
+#            artifact-name: StudyTracker-Windows
+#
+#          - os: macos-latest
+#            gradle-command: bash ./gradlew
+#            executable-path: build/native/nativeCompile/*
+#            artifact-name: StudyTracker-macOS
+#
+#    runs-on: ${{ matrix.os }}
+#
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v6
+#
+#      - name: Set up GraalVM
+#        uses: graalvm/setup-graalvm@v1
+#        with:
+#          distribution: 'graalvm'
+#          java-version: '25'
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Run tests
+#        run: ${{ matrix.gradle-command }} test
+#
+#      - name: Build native executable
+#        run: ${{ matrix.gradle-command }} nativeCompile
+#
+#      - name: Upload build artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: ${{ matrix.artifact-name }}
+#          path: ${{ matrix.executable-path }}
+#          if-no-files-found: error
+#
+#  release:
+#    name: Publish GitHub Release
+#    needs: build
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Download build artifacts
+#        uses: actions/download-artifact@v4
+#        with:
+#          path: dist
+#          merge-multiple: true
+#
+#      - name: Upload executables to release
+#        uses: softprops/action-gh-release@v2
+#        with:
+#          files: dist/*
+#          fail_on_unmatched_files: true
