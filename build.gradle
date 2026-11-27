@@ -1,15 +1,18 @@
+// plugins
 plugins {
     id 'java'
     id 'application'
     id 'org.graalvm.buildtools.native' version '1.1.19'
 }
 group = 'com.example'
-version = '1.0-SNAPSHOT'
+version = '1.0.1'
 
+// tells gradle to download dependencies from the maven repo
 repositories {
     mavenCentral()
 }
 
+// installs dependencies
 dependencies {
     implementation 'info.picocli:picocli:4.7.7'
     annotationProcessor 'info.picocli:picocli-codegen:4.7.7'
@@ -18,10 +21,26 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+// names the application
 application {
     mainClass = 'com.studytracker.Main'
 }
 
+// specifically give gradle the correct input stream
+tasks.named('run') {
+    standardInput = System.in
+}
+
+// Enables graceful program shutdown (this program uses a shutdown hook to save data)
+graalvmNative {
+    binaries {
+        main {
+            buildArgs.add('--install-exit-handlers')
+        }
+    }
+}
+
+// testing
 test {
     useJUnitPlatform()
 }

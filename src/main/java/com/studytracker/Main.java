@@ -6,20 +6,22 @@ import com.studytracker.Statistics.Statistics;
 import com.studytracker.Study.StudyConfig;
 import com.studytracker.Study.StudyRepository;
 
+/**
+ * The entry point for the program
+ */
 public class Main {
     public static void main(String[] args) {
 
         StudyRepository repo = new StudyRepository(
-                StudyConfig.getGlobalConfig().getDataPath(),
+                StudyConfig.getGlobalConfig().getCompletedDataPath(),
                 StudyConfig.getGlobalConfig().getActiveSessionsDataPath());
         StudyUserIO disp = new StudyCLI();
-        Statistics stats = new Statistics(repo);
         CommandHandler handler = new CommandHandler(
                 repo,
-                disp,
-                stats
+                disp
         );
 
+        // takes input until exit
         handler.run();
     }
 }

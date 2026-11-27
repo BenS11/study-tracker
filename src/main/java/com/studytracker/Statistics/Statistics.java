@@ -10,14 +10,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A class representing a statistics service
+ */
 public class Statistics {
     private final StudyRepository repo;
 
+    /**
+     * Constructs a statistics service
+     * @param repo The repository to analyze
+     */
     public Statistics(StudyRepository repo) {
         this.repo = repo;
     }
 
-
+    /**
+     * Summarizes a length of time
+     * @param start Start Date
+     * @param end End Date
+     * @return a formatted summary
+     */
     public String summary(LocalDate start, LocalDate end) {
         List<StudySession> sessionList = repo.getCompletedInRange(start, end);
 
@@ -26,15 +38,11 @@ public class Statistics {
                 .mapToLong(session -> session.duration.toSeconds())
                 .sum();
 
-        HashMap<String, Long> subjects = new HashMap<>();
-
-        for (StudySession studySession : sessionList) {
-            String subj = studySession.subject;
-            subjects.put(subj,
-                    subjects.getOrDefault(subj, 0L) + studySession.duration.toSeconds());
-        }
+        // count the amount of second each subject was studied
+        HashMap<String, Long> subjects = getTimeSpentPerSubject(sessionList);
 
         String mostStudied  = "";
+        // ID must be greater than 0
         Long largest = -1L;
 
         for (Map.Entry<String, Long> entry : subjects.entrySet()) {
@@ -71,6 +79,28 @@ public class Statistics {
         return summary.toString();
     }
 
+    /**
+     * Computes the amount of time spent on each subject
+     * @param sessionList The list of study sessions
+     * @return a map from subject -> total time spent
+     */
+    private static HashMap<String, Long> getTimeSpentPerSubject(List<StudySession> sessionList) {
+        HashMap<String, Long> subjectTime = new HashMap<>();
+
+        for (StudySession studySession : sessionList) {
+            String subj = studySession.subject;
+            // put the subject, adding the time if the map has it
+            subjectTime.merge(subj, studySession.duration.toSeconds(), Long::sum);
+        }
+        return subjectTime;
+    }
+
+
+    /**
+     * Displays the streak for a subject
+     * @param subject a subject or null for all subjects
+     * @return a formatted streak message
+     */
     public String streak(String subject) {
         int streak = repo.getStreak(subject);
 

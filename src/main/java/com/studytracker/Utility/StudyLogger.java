@@ -12,8 +12,16 @@ import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * A (somewhat incomplete) logger class.
+ * This generally should not be used to swallow exceptions,
+ * and should supplement other error handling.
+ */
 public final class StudyLogger {
 
+    /**
+     * Path of the log file
+     */
     private static Path logPath;
 
     private StudyLogger() {}
@@ -32,16 +40,25 @@ public final class StudyLogger {
         return logPath;
     }
 
-    public static synchronized void logException(Throwable e) {
-        StringWriter trace = new StringWriter();
-        e.printStackTrace(new PrintWriter(trace));
+    /**
+     * Sets the logging path.
+     * TODO: move away from a class with static state to a singleton or other method
+     * @param newLogPath The path
+     */
+    public static synchronized void setLogPath(Path newLogPath) {
+        logPath = newLogPath;
+    }
 
+    /**
+     * A method for logging exceptions. This is synchronized to allow for logging from a gui thread or other thread in the future.
+     * @param e Throwable exception
+     */
+    public static synchronized void logException(Throwable e) {
         String entry = String.format(
-                "[%s] %s: %s%n%s%n",
+                "[%s] %s: %s",
                 LocalDateTime.now(),
                 e.getClass().getSimpleName(),
-                e.getMessage(),
-                trace
+                e.getMessage()
         );
 
         try {
@@ -51,9 +68,9 @@ public final class StudyLogger {
                     StandardOpenOption.APPEND
             );
         } catch (IOException | NullPointerException ex) {
-            System.err.println("Failed to write application log:");
-            ex.printStackTrace();
-            e.printStackTrace();
+            System.err.println("Failed to write error log:");
+            ex.printStackTrace(System.err);
+            e.printStackTrace(System.err);
         }
     }
 }

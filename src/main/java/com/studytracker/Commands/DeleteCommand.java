@@ -20,6 +20,11 @@ public class DeleteCommand implements Runnable {
     )
     private long id;
 
+    /**
+     * Constructs a delete command - deletes sessions by id
+     * @param repo The users repository
+     * @param display The user's display
+     */
     public DeleteCommand(StudyRepository repo, StudyUserIO display) {
         this.repo = repo;
         this.display = display;
