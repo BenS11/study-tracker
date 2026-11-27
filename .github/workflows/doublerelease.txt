@@ -1,3 +1,6 @@
+# The mac release was unsuccessful so I am taking down this workflow
+# until I can debug on a mac, as I develop on windows
+
 #name: Build StudyTracker Release
 #
 #on:
