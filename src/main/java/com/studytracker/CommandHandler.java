@@ -69,6 +69,7 @@ public class CommandHandler {
         while (true) {
             String input = display.read();
 
+
             if (input.equalsIgnoreCase("exit")) {
                 break;
             }

@@ -6,6 +6,9 @@ import com.studytracker.Statistics.Statistics;
 import com.studytracker.Study.StudyConfig;
 import com.studytracker.Study.StudyRepository;
 
+/**
+ * The entry point for the program
+ */
 public class Main {
     public static void main(String[] args) {
 
@@ -18,6 +21,7 @@ public class Main {
                 disp
         );
 
+        // takes input until exit
         handler.run();
     }
 }
