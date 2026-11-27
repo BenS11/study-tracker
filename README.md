@@ -45,10 +45,13 @@ Steps:
 
 ## Usage
 
-All available commands are documented in [Commands.md](docs/Commands.md), or type help in the cli to get started. 
+All available commands are documented in [Commands.md](docs/Commands.md), or type help in the cli to get started.  
 
-### Notes
+
+### Notes - Important!
 - A directory called .studytracker will be created in the user's home directory.
+- Make sure to exit the application using exit, rather than clicking exit. I am working on implementing shutdown hooks, but native image compilation makes this non-trivial. To be safe and protect your data, use exit.
+- 
 ## Roadmap
 
 - [x] CLI Interface
