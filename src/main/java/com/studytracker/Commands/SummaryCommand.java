@@ -14,8 +14,13 @@ public class SummaryCommand implements Runnable {
     private final Statistics stats;
     private final StudyUserIO disp;
 
-    public SummaryCommand(StudyUserIO disp, Statistics stats) {
-        this.disp = disp;
+    /**
+     * Constructs a Summary command - displays the user's streak
+     * @param display The user's display
+     * @param stats The statistics service
+     */
+    public SummaryCommand(StudyUserIO display, Statistics stats) {
+        this.disp = display;
         this.stats = stats;
     }
 
@@ -36,6 +41,7 @@ public class SummaryCommand implements Runnable {
             description = "Summarize all sessions"
     )
     private boolean all;
+
     /**
      * Runs this operation.
      */

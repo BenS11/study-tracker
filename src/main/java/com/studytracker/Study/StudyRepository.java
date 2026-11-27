@@ -213,7 +213,11 @@ public class StudyRepository {
                 .toList();
     }
 
-
+    /**
+     * Computes the streak for a subject
+     * @param subject the subject
+     * @return the number of days in a row that have been studied
+     */
     public int getStreak(String subject) {
         if (completeSessions.isEmpty()) {
             return 0;
@@ -243,14 +247,16 @@ public class StudyRepository {
         return streak;
     }
 
+    /**
+     * Edits a study session
+     * @param sessionId the id of the session
+     * @param newDateTime
+     * @param newDuration
+     * @param newSubject
+     * @return success or failure
+     */
     public boolean edit(long sessionId, LocalDateTime newDateTime, Duration newDuration, String newSubject) {
-        StudySession session = null;
-
-        for (StudySession s : completeSessions) {
-            if (s.id == sessionId) {
-                session = s;
-            }
-        }
+        StudySession session = getByID(sessionId);
 
         if (session == null) return false;
 
@@ -277,6 +283,21 @@ public class StudyRepository {
         } catch (IOException e) {
             StudyLogger.logException(e);
         }
+    }
+
+    /**
+     * Gets a study session
+     * @param id ID of study session to get
+     * @return a study session, or null if no id matches
+     */
+    public StudySession getByID(long id) {
+        for (StudySession s : completeSessions) {
+            if (s.id == id) {
+                return s;
+            }
+        }
+
+        return null;
     }
 
     /**

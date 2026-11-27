@@ -14,8 +14,13 @@ public class StreakCommand implements Runnable {
     private final Statistics stats;
     private final StudyUserIO disp;
 
-    public StreakCommand(StudyUserIO disp, Statistics stats) {
-        this.disp = disp;
+    /**
+     * Constructs a streak command - displays the user's streak
+     * @param display The user's display
+     * @param stats The statistics service
+     */
+    public StreakCommand(StudyUserIO display, Statistics stats) {
+        this.disp = display;
         this.stats = stats;
     }
 

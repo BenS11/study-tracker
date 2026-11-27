@@ -19,6 +19,11 @@ public class RecordCommand implements Runnable {
     private final StudyUserIO display;
     private final StudyRepository repo;
 
+    /**
+     * Constructs a record command - records a complete session
+     * @param repo The users repository
+     * @param display The user's display
+     */
     public RecordCommand(StudyRepository repo, StudyUserIO display) {
         this.display = display;
         this.repo = repo;

@@ -22,10 +22,15 @@ public class ResetCommand implements Runnable {
     )
     private boolean force;
 
-    public ResetCommand(StudyRepository repo, StudyUserIO disp)
+    /**
+     * Constructs a reset command - reset ALL data
+     * @param repo The users repository
+     * @param display The user's display
+     */
+    public ResetCommand(StudyRepository repo, StudyUserIO display)
     {
         this.repo = repo;
-        this.disp = disp;
+        this.disp = display;
     }
 
     /**
@@ -43,7 +48,7 @@ public class ResetCommand implements Runnable {
             repo.wipe();
             disp.println("Wiped data.csv and active.csv");
         } catch (IOException e) {
-            disp.println("Could not wipe data -IOException");
+            disp.println("Could not wipe data - IOException");
         }
     }
 

@@ -41,6 +41,11 @@ public class DisplayCommand implements Runnable {
     )
     private LocalDate endRange;
 
+    /**
+     * Constructs a display command - displays active sessions
+     * @param repo The users repository
+     * @param display The user's display
+     */
     public DisplayCommand(StudyRepository repo, StudyUserIO display) {
         this.repo = repo;
         this.display = display;

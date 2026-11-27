@@ -40,6 +40,11 @@ public class EditCommand implements Runnable {
     )
     private String subject;
 
+    /**
+     * Constructs an edit command - edit sessions by id
+     * @param repo The users repository
+     * @param display The user's display
+     */
     public EditCommand(StudyRepository repo, StudyUserIO display) {
         this.repo = repo;
         this.display = display;
